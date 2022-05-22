@@ -1,0 +1,18 @@
+.alarm-item{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom:10px;
+}
+.index, .task-desc, .task-time, .timer, .start, .reset, .pause-continue{
+    margin-right:10px;
+
+}
+
+.task-time{
+    width:40px;
+}
+
+.pause-continue{
+    width:120px;
+}
