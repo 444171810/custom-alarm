@@ -12,8 +12,8 @@
     background-color: gray;
 }
 
-.add-step, .stopBtn, .exportBtn{
+.add-step, .stopBtn, .exportBtn, .importBtn{
     margin: 0 10px;
-    width: 200px; height:40px;
+    width: 200px; height:60px;
     font-size:30px;
 }

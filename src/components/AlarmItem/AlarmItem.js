@@ -16,6 +16,12 @@ const AlarmItem = (props) => {
   const [playing, setPlaying] = useState(false);
 
   const switchTimer = () => {
+    if (playing) {
+      //was playing, paused now
+    } else {
+      //was paused, play now
+      setTimeout(play, +taskMinutes * MINUTE_LENGTH * 1000);
+    }
     setPlaying(!playing);
   };
 
@@ -35,13 +41,14 @@ const AlarmItem = (props) => {
       <input type="checkbox"></input>
       <input
         className="task-desc"
-        type="input"
+        type="text"
         onChange={(e) => setTaskDesc(e.target.value)}
         value={taskDesc}
       />
       <input
         className="task-time"
         type="number"
+        min={0}
         onChange={(e) => setTaskMinutes(e.target.value)}
         value={taskMinutes}
       />
@@ -67,6 +74,12 @@ const AlarmItem = (props) => {
         onComplete={() => {
           onComplete();
         }}
+        // onUpdate={(remainingTime) => {
+        //   console.log(`updated to ${remainingTime}`);
+        //   if (remainingTime <= 0) {
+        //     play();
+        //   }
+        // }}
       >
         {({ remainingTime }) => remainingTime}
       </CountdownCircleTimer>

@@ -16,3 +16,7 @@
 .pause-continue{
     width:120px;
 }
+
+.alarm-item button, .alarm-item input{
+    padding:10px;
+}
