@@ -6,7 +6,7 @@ import { play, stop } from "../../utils/sound";
 import { useFilePicker } from "use-file-picker";
 
 const AlarmContainer = (props) => {
-  const [settings, setSettings] = useState([{}]);
+  const [settings, setSettings] = useState([{ taskDesc: "", taskMinutes: 0 }]);
 
   const [openFileSelector, { filesContent, loading }] = useFilePicker({
     multiple: false,
@@ -14,7 +14,14 @@ const AlarmContainer = (props) => {
   });
 
   const addStep = () => {
-    setSettings([...settings, {}]);
+    setSettings([...settings, { taskDesc: "", taskMinutes: 0 }]);
+  };
+
+  const updateSetting = (item, index) => {
+    let settingsNew = settings.slice(0);
+    settingsNew[index] = item;
+
+    setSettings(settingsNew);
   };
 
   useEffect(() => {
@@ -26,12 +33,17 @@ const AlarmContainer = (props) => {
     }, 300);
   }, [filesContent]);
 
+  // useEffect(() => {
+  //   setInterval(() => {
+  //     console.log(settings);
+  //   }, 10000);
+  // }, []);
+
   const exportToJson = () => {
-    var dataStr =
-      "data:text/json;charset=utf-8," +
-      encodeURIComponent(JSON.stringify(settings));
+    const dataStr = JSON.stringify(settings);
+    var fileStr = "data:text/json;charset=utf-8," + encodeURIComponent(dataStr);
     var dlAnchorElem = document.getElementById("downloadAnchorElem");
-    dlAnchorElem.setAttribute("href", dataStr);
+    dlAnchorElem.setAttribute("href", fileStr);
     dlAnchorElem.setAttribute("download", "settings.json");
     dlAnchorElem.click();
   };
@@ -44,6 +56,7 @@ const AlarmContainer = (props) => {
           {...setting}
           key={index}
           //key={"" + index + new Date().getTime()}
+          updateSetting={(data) => updateSetting(data, index)}
         ></AlarmItem>
       ))}
 

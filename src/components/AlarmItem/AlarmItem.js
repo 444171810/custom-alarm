@@ -6,9 +6,9 @@ import { play, stop } from "../../utils/sound";
 const AlarmItem = (props) => {
   const MINUTE_LENGTH = 60;
   const [key, setKey] = useState(new Date().getTime());
-  const [taskDesc, setTaskDesc] = useState(props.taskDesc || "");
+  // const [taskDesc, setTaskDesc] = useState(props.taskDesc || "");
 
-  const [taskMinutes, setTaskMinutes] = useState(props.taskMinutes || 0);
+  // const [taskMinutes, setTaskMinutes] = useState(props.taskMinutes || 0);
   const [taskTime, setTaskTime] = useState(
     (props.taskMinutes && props.taskMinutes * MINUTE_LENGTH) || 0
   );
@@ -20,7 +20,7 @@ const AlarmItem = (props) => {
       //was playing, paused now
     } else {
       //was paused, play now
-      setTimeout(play, +taskMinutes * MINUTE_LENGTH * 1000);
+      setTimeout(play, +props.taskMinutes * MINUTE_LENGTH * 1000);
     }
     setPlaying(!playing);
   };
@@ -31,7 +31,7 @@ const AlarmItem = (props) => {
 
   const reset = () => {
     setKey(new Date().getTime());
-    setTaskTime(+taskMinutes * MINUTE_LENGTH);
+    setTaskTime(+props.taskMinutes * MINUTE_LENGTH);
     setPlaying(false);
   };
 
@@ -42,15 +42,25 @@ const AlarmItem = (props) => {
       <input
         className="task-desc"
         type="text"
-        onChange={(e) => setTaskDesc(e.target.value)}
-        value={taskDesc}
+        onChange={(e) => {
+          props.updateSetting({
+            taskDesc: e.target.value,
+            taskMinutes: props.taskMinutes,
+          });
+        }}
+        value={props.taskDesc}
       />
       <input
         className="task-time"
         type="number"
         min={0}
-        onChange={(e) => setTaskMinutes(e.target.value)}
-        value={taskMinutes}
+        onChange={(e) => {
+          props.updateSetting({
+            taskDesc: props.taskDesc,
+            taskMinutes: e.target.value,
+          });
+        }}
+        value={props.taskMinutes}
       />
       <button className="pause-continue" onClick={() => switchTimer()}>
         {playing ? "pause" : "start/continue"}
