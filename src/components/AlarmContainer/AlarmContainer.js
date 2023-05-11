@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AlarmItem from "../AlarmItem/AlarmItem";
 import "./AlarmContainer.css";
-import { play, stop } from "../../utils/sound";
+import { stop } from "../../utils/sound";
 //import DefaultSetting from "../../settings.json";
 import { useFilePicker } from "use-file-picker";
 
@@ -33,12 +33,6 @@ const AlarmContainer = (props) => {
     }, 300);
   }, [filesContent]);
 
-  // useEffect(() => {
-  //   setInterval(() => {
-  //     console.log(settings);
-  //   }, 10000);
-  // }, []);
-
   const exportToJson = () => {
     const dataStr = JSON.stringify(settings);
     var fileStr = "data:text/json;charset=utf-8," + encodeURIComponent(dataStr);
@@ -55,7 +49,6 @@ const AlarmContainer = (props) => {
           index={index + 1}
           {...setting}
           key={index}
-          //key={"" + index + new Date().getTime()}
           updateSetting={(data) => updateSetting(data, index)}
         ></AlarmItem>
       ))}

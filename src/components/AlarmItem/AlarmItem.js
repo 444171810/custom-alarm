@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import "./AlarmItem.css";
-import { play, stop } from "../../utils/sound";
+import { play } from "../../utils/sound";
 
 const AlarmItem = (props) => {
   const MINUTE_LENGTH = 60;
   const [key, setKey] = useState(new Date().getTime());
-  // const [taskDesc, setTaskDesc] = useState(props.taskDesc || "");
-
-  // const [taskMinutes, setTaskMinutes] = useState(props.taskMinutes || 0);
   const [taskTime, setTaskTime] = useState(
     (props.taskMinutes && props.taskMinutes * MINUTE_LENGTH) || 0
   );
@@ -16,12 +13,6 @@ const AlarmItem = (props) => {
   const [playing, setPlaying] = useState(false);
 
   const switchTimer = () => {
-    if (playing) {
-      //was playing, paused now
-    } else {
-      //was paused, play now
-      setTimeout(play, +props.taskMinutes * MINUTE_LENGTH * 1000);
-    }
     setPlaying(!playing);
   };
 
@@ -34,6 +25,10 @@ const AlarmItem = (props) => {
     setTaskTime(+props.taskMinutes * MINUTE_LENGTH);
     setPlaying(false);
   };
+
+  useEffect(() => {
+    setTaskTime((props.taskMinutes && props.taskMinutes * MINUTE_LENGTH) || 0);
+  }, [props.taskMinutes])
 
   return (
     <div className="alarm-item">
@@ -84,12 +79,6 @@ const AlarmItem = (props) => {
         onComplete={() => {
           onComplete();
         }}
-        // onUpdate={(remainingTime) => {
-        //   console.log(`updated to ${remainingTime}`);
-        //   if (remainingTime <= 0) {
-        //     play();
-        //   }
-        // }}
       >
         {({ remainingTime }) => remainingTime}
       </CountdownCircleTimer>
